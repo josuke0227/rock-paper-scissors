@@ -97,6 +97,37 @@ function getGameOverMessage(result, playerScore) {
 }
 
 /**
+ *
+ * @param {Integer} rounds
+ * @param {Array<String>} selections
+ * @returns {String}
+ */
+function getPlayerSelection(rounds, selections) {
+  let selection;
+  while (true) {
+    selection = prompt(
+      `Please enter your selection. ${rounds} out of 5 rounds left.`
+    );
+    if (selection === null) {
+      alert('Thanks for Playing! \nSee Ya!');
+      return null;
+    }
+    if (selection === '') {
+      alert('Please enter your selection.');
+      continue;
+    }
+    selection = selection.toLocaleLowerCase().trim();
+    if (selections.indexOf(selection) >= 0) {
+      return selection;
+    } else {
+      alert(
+        `Oops, "${selection}" does not seem like to be valid selection...\n Please choose from "Rock", "Paper" or "Scissors" ;)`
+      );
+    }
+  }
+}
+
+/**
  * Main method.
  */
 function game() {
@@ -106,27 +137,9 @@ function game() {
   let computerWon = 0;
   let rounds = 5;
   while (0 < rounds) {
-    let playerSelection;
-    while (true) {
-      playerSelection = prompt(
-        `Please enter your selection. ${rounds} out of 5 rounds left.`
-      );
-      if (playerSelection === null) {
-        alert('Thanks for Playing! \nSee Ya!');
-        return;
-      }
-      if (playerSelection === '') {
-        alert('Please enter your selection.');
-        continue;
-      }
-      playerSelection = playerSelection.toLocaleLowerCase().trim();
-      if (SELECTIONS.indexOf(playerSelection) >= 0) {
-        break;
-      } else {
-        alert(
-          `Oops, "${playerSelection}" does not seem like to be valid selection...\n Please choose from "Rock", "Paper" or "Scissors" ;)`
-        );
-      }
+    const playerSelection = getPlayerSelection(rounds, SELECTIONS);
+    if (playerSelection === null) {
+      return;
     }
     const computerSelection = getComputerSelection(SELECTIONS);
     const result = playRound(playerSelection, computerSelection, SELECTIONS);
