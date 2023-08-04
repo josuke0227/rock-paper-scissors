@@ -10,64 +10,146 @@
  *
  */
 
-// create a function that decides computer's selection - getComputerSelection.
-// Input: none, Output: text
-//  create "selections" variable and let it have an array with value "rock", "paper" and "scissors"
-//  create "index" variable that random number between 0 - 2 is assigned when the function called
-//  return the value of the array in the location of "index".
+/**
+ *
+ * @param {Array<String>} selections
+ * @returns {String}
+ */
+function getComputerSelection(selections) {
+  const index = getRandomInt(selections.length);
+  return selections[index];
+}
 
-// create a function that decides the result of the round - playRound().
-// Input: text(playerSelection, computerSelection), Output: boolean or null
-//  Create rock variable an assign the 1st element of the SELECTION array.
-//  Create paper variable an assign the 2nd element of the SELECTION array.
-//  Create scissors variable an assign the 3rd element of the SELECTION array.
-//  IF player selected "rock"
-//   IF computer selected "rock"
-//     return null
-//   IF computer selected "paper"
-//     return false
-//   IF computer selected "scissors"
-//     return true
-//  IF player selected "paper"
-//   IF computer selected "rock"
-//     return true
-//   IF computer selected "paper"
-//     return null
-//   IF computer selected "scissors"
-//     return false
-//  IF player selected "scissors"
-//   IF computer selected "rock"
-//     return false
-//   IF computer selected "paper"
-//     return true
-//   IF computer selected "scissors"
-//     return null
+/**
+ *
+ * @param {Integer} max
+ * @returns {Integer}
+ * range: greater than or equal to 0 or smaller than max.
+ */
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
 
-// Create a function that call the "playRound" function 5 times - game().
-//  Create SELECTIONS variable and assign the array with "rock", "paper", "scissors".
-//
-//  Initialize isValid with false.
-//  Continue loop as long as isValid is false. Inside the loop, change the isValid true IF:
-//    Take input from console and assign text value to "playerSelection" variable.
-//    Re assign the value of the "playerSelection" variable with lower case letter alphabets.
-//    Check the playerSelection's value is valid selection
-//    IF playerSelection has valid value, change the isValid to true.
-//    ELSE display the message - <selection> is wrong selection. Please enter "Rock", "Paper" or "Scissors".
-//
-//   Create "computerSelection" and assign the result of "getComputerSelection" function.
-//  Create "playerWon" and assign number 0
-//  Create "computerWon" and assign number 0
-//  Create "youWinMessage" and assign text, "You Win!"
-//  Create "drawMessage" and assign text, "Draw"
-//  Create "youLoseMessage" and assign text, "You Lose!"
-//  Begin with "i" at 0 and add 1 to "i" on each pass until "i" is less than 5
-//    Create "result" variable and assign the returned value of "playRound"
-//    IF the result of the function is true, then count up the "playerWon" variable.
-//    IF the result of the function is false, then count up "computerWon" variable.
-//    IF the result of the function is null, then do nothing.
-//
-//  IF "playerWon" is greater than "computerWon" then return the "youWinMessage".
-//  IF "computerWon" is greater than "playerWon" then return the "youLostMessage".
-//  ELSE return "drawMessage".
+/**
+ *
+ * @param {String} playerSelection
+ * @param {String} computerSelection
+ * @param {Array<String>} computerSelection
+ * @returns {Boolean || null}
+ */
+function playRound(playerSelection, computerSelection, selections) {
+  const [rock, paper, scissors] = selections;
+
+  if (
+    (playerSelection === rock && computerSelection === scissors) ||
+    (playerSelection === paper && computerSelection === rock) ||
+    (playerSelection === scissors && computerSelection === paper)
+  ) {
+    return true;
+  }
+
+  if (playerSelection === computerSelection) {
+    return null;
+  }
+
+  return false;
+}
+
+/**
+ *
+ * @param {Integer} playerScore
+ * @param {Integer} computerScore
+ * @returns {Boolean}
+ */
+function didPlayerWon(playerScore, computerScore) {
+  return playerScore > computerScore;
+}
+/**
+ *
+ * @param {Integer} playerScore
+ * @param {Integer} computerScore
+ * @returns {Boolean}
+ */
+function didDraw(playerScore, computerScore) {
+  return playerScore === computerScore;
+}
+
+/**
+ *
+ * @param {String} result
+ * @param {Integer} playerScore
+ * @returns {String}
+ */
+function getGameOverMessage(result, playerScore) {
+  const tryAgainMessage = '\nGame Over! Refresh this page to try again! :)';
+  const score = `\nYou won ${playerScore} ${
+    playerScore > 1 ? 'times' : 'time'
+  }.`;
+  const youWinMessage = 'You Win!' + score + tryAgainMessage;
+  const drawMessage = 'Draw' + tryAgainMessage;
+  const youLooseMessage = 'You Lose... :(' + score + tryAgainMessage;
+  const message = {
+    win: youWinMessage,
+    loose: youLooseMessage,
+    draw: drawMessage,
+  };
+  return message[result];
+}
+
+/**
+ * Main method.
+ */
+function game() {
+  const SELECTIONS = ['rock', 'paper', 'scissors'];
+
+  let playerWon = 0;
+  let computerWon = 0;
+  let rounds = 5;
+  while (0 < rounds) {
+    let playerSelection;
+    while (true) {
+      playerSelection = prompt(
+        `Please enter your selection. ${rounds} out of 5 rounds left.`
+      );
+      if (playerSelection === null) {
+        alert('Thanks for Playing! \nSee Ya!');
+        return;
+      }
+      if (playerSelection === '') {
+        alert('Please enter your selection.');
+        continue;
+      }
+      playerSelection = playerSelection.toLocaleLowerCase().trim();
+      if (SELECTIONS.indexOf(playerSelection) >= 0) {
+        break;
+      } else {
+        alert(
+          `Oops, "${playerSelection}" does not seem like to be valid selection...\n Please choose from "Rock", "Paper" or "Scissors" ;)`
+        );
+      }
+    }
+    const computerSelection = getComputerSelection(SELECTIONS);
+    const result = playRound(playerSelection, computerSelection, SELECTIONS);
+    if (result === true) {
+      alert('You win! :)');
+      playerWon++;
+    } else if (result === false) {
+      computerWon++;
+      alert('You lose... :(');
+    } else {
+      alert('Draw :|');
+    }
+    rounds--;
+  }
+
+  if (didDraw(playerWon, computerWon)) {
+    alert(getGameOverMessage('draw', playerWon));
+  } else if (didPlayerWon(playerWon, computerWon)) {
+    alert(getGameOverMessage('win', playerWon));
+  } else {
+    alert(getGameOverMessage('loose', playerWon));
+  }
+}
 
 // call the game() function.
+game();
