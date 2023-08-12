@@ -143,14 +143,15 @@ function game() {
     }
     const computerSelection = getComputerSelection(SELECTIONS);
     const result = playRound(playerSelection, computerSelection, SELECTIONS);
+    const combinationMessage = `You chose "${playerSelection}" and computer chose "${computerSelection}"`;
     if (result === true) {
-      alert('You win! :)');
+      alert(`You win! :) \n${combinationMessage}`);
       playerWon++;
     } else if (result === false) {
       computerWon++;
-      alert('You lose... :(');
+      alert(`You lose... :( \n${combinationMessage}`);
     } else {
-      alert('Draw :|');
+      alert(`Draw :| \n${combinationMessage}`);
     }
     rounds--;
   }
@@ -164,5 +165,4 @@ function game() {
   }
 }
 
-// call the game() function.
 game();
