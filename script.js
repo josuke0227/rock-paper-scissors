@@ -135,8 +135,7 @@ function game() {
 
   let playerWon = 0;
   let computerWon = 0;
-  let rounds = 5;
-  while (0 < rounds) {
+  while (true) {
     const playerSelection = getPlayerSelection(rounds, SELECTIONS);
     if (playerSelection === null) {
       return;
@@ -153,7 +152,6 @@ function game() {
     } else {
       alert(`Draw :| \n${combinationMessage}`);
     }
-    rounds--;
   }
 
   if (didDraw(playerWon, computerWon)) {
