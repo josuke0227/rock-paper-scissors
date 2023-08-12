@@ -6,25 +6,41 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0"
     />
     <link rel="stylesheet" href="./style.css" />
+    <script src="./script.js" defer></script>
     <title>Rock Paper Scissors</title>
   </head>
   <body>
+    <div class="counter-container">
+      <span>COM</span>
+      <div id="computer-counter" class="counter">
+        <span data-count="1" class="circle"></span>
+        <span data-count="2" class="circle"></span>
+        <span data-count="3" class="circle"></span>
+        <span data-count="4" class="circle"></span>
+        <img src="./trophy-outlined.svg" alt="trophy icon" data-count="5" />
+      </div>
+    </div>
+    <div class="chosen-selections">
+      <div id="selection-computer" class="chosen-selection computer"></div>
+      <div id="selection-player" class="chosen-selection player"></div>
+    </div>
     <div class="round-result">
-      <span id="round-result-panel">You Win!</span>
+      <span id="round-result-panel"></span>
+    </div>
+    <div class="selections">
+      <div id="rock" class="selection">Rock</div>
+      <div id="paper" class="selection">Paper</div>
+      <div id="scissors" class="selection">Scissors</div>
+    </div>
+    <div class="counter-container">
+      <span>YOU</span>
+      <div id="player-counter" class="counter">
+        <span data-count="1" class="circle"></span>
+        <span data-count="2" class="circle"></span>
+        <span data-count="3" class="circle"></span>
+        <span data-count="4" class="circle"></span>
+        <img src="./trophy-outlined.svg" alt="trophy icon" data-count="5" />
+      </div>
     </div>
   </body>
-  <script>
-    let resultText = '';
-    let roundResult = null;
-    if (roundResult === true) {
-      resultText = 'You Win! :)';
-    } else if (roundResult === false) {
-      resultText = 'You Loose... :(';
-    } else {
-      resultText = 'Draw :|';
-    }
-
-    const roundResultPanel = document.getElementById('round-result-panel');
-    roundResultPanel.innerText = resultText;
-  </script>
 </html>

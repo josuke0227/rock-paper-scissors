@@ -130,39 +130,58 @@ function getPlayerSelection(rounds, selections) {
 /**
  * Main method.
  */
-function game() {
+let playerWon = 0;
+let computerWon = 0;
+function game(playerSelection) {
   const SELECTIONS = ['rock', 'paper', 'scissors'];
 
-  let playerWon = 0;
-  let computerWon = 0;
-  while (true) {
-    const playerSelection = getPlayerSelection(rounds, SELECTIONS);
-    if (playerSelection === null) {
-      return;
-    }
-    const computerSelection = getComputerSelection(SELECTIONS);
-    const result = playRound(playerSelection, computerSelection, SELECTIONS);
-    const combinationMessage = `You chose "${playerSelection}" and computer chose "${computerSelection}"`;
-    if (result === true) {
-      alert(`You win! :) \n${combinationMessage}`);
-      playerWon++;
-    } else if (result === false) {
-      computerWon++;
-      alert(`You lose... :( \n${combinationMessage}`);
-    } else {
-      alert(`Draw :| \n${combinationMessage}`);
-    }
+  const computerSelection = getComputerSelection(SELECTIONS);
+  const roundResult = playRound(playerSelection, computerSelection, SELECTIONS);
+
+  const computerSelectionPanel = document.getElementById('selection-computer');
+  const playerSelectionPanel = document.getElementById('selection-player');
+  computerSelectionPanel.innerText = computerSelection;
+  playerSelectionPanel.innerText = playerSelection;
+
+  let resultText = '';
+  if (roundResult === true) {
+    resultText = 'You Win! :)';
+    playerWon++;
+  } else if (roundResult === false) {
+    resultText = 'You Loose... :(';
+    computerWon++;
+  } else {
+    resultText = 'Draw :|';
   }
 
-  if (didDraw(playerWon, computerWon)) {
-    alert(getGameOverMessage('draw', playerWon));
-  } else if (didPlayerWon(playerWon, computerWon)) {
-    alert(getGameOverMessage('win', playerWon));
-  } else {
-    alert(getGameOverMessage('loose', playerWon));
+  const roundResultPanel = document.getElementById('round-result-panel');
+  roundResultPanel.innerText = resultText;
+
+  updateCounter('computer-counter', computerWon);
+  updateCounter('player-counter', playerWon);
+}
+
+function updateCounter(target, value) {
+  const { children } = document.getElementById(target);
+  for (let count of children) {
+    const countNumber = count.getAttribute('data-count');
+    if (count.tagName !== 'IMG' && +countNumber <= value) {
+      count.classList.add('filled');
+    }
+    if (count.tagName === 'IMG' && value >= 5) {
+      count.src = './trophy.svg';
+    }
   }
 }
 
-game();
+// game();
+const { children: selections } =
+  document.getElementsByClassName('selections')[0];
+for (let selection of selections) {
+  selection.addEventListener('click', handleSelectionClick);
+}
 
-//User interactivity
+function handleSelectionClick({ target }) {
+  const selection = target.getAttribute('id');
+  game(selection);
+}
