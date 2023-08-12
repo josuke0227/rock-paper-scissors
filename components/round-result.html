@@ -1,0 +1,19 @@
+<body>
+  <div class="round-result">
+    <span id="round-result-panel">You Win!</span>
+  </div>
+</body>
+<script>
+  let resultText = '';
+  let roundResult = null;
+  if (roundResult === true) {
+    resultText = 'You Win! :)';
+  } else if (roundResult === false) {
+    resultText = 'You Loose... :(';
+  } else {
+    resultText = 'Draw :|';
+  }
+
+  const roundResultPanel = document.getElementById('round-result-panel');
+  roundResultPanel.innerText = resultText;
+</script>
