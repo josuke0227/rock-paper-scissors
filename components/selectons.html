@@ -1,0 +1,19 @@
+<body>
+  <div class="selections">
+    <div id="rock" class="selection">Rock</div>
+    <div id="paper" class="selection">Paper</div>
+    <div id="scissors" class="selection">Scissors</div>
+  </div>
+</body>
+<script>
+  const { children: selections } =
+    document.getElementsByClassName('selections')[0];
+  for (let selection of selections) {
+    selection.addEventListener('click', handleSelectionClick);
+  }
+
+  function handleSelectionClick({ target }) {
+    const selection = target.getAttribute('id');
+    console.log(selection);
+  }
+</script>

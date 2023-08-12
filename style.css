@@ -3,6 +3,7 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Counter component */
 .counter {
   display: flex;
   align-items: center;
@@ -30,8 +31,51 @@
 .counter-container > span {
   font-size: 32px;
 }
+/* Counter component */
 
-.fa-crown {
-  font-size: 34px;
-  background-color: unset;
+.selections {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+}
+
+/* Selection button */
+.selection {
+  width: 150px;
+  height: 150px;
+  border: 5px solid black;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.selection:hover {
+  background-color: #b2b2b2;
+}
+
+.clicked {
+  background-color: #b2b2b2;
+}
+
+/* Chosen selections */
+.chosen-selection {
+  width: 150px;
+  height: 75px;
+  border: 5px solid black;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.computer {
+  border-bottom: 2.5px solid black;
+  border-radius: 10px 10px 0 0;
+}
+
+.player {
+  border-top: 2.5px solid black;
+  border-radius: 0 0 10px 10px;
 }
