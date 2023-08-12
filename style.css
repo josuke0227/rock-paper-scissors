@@ -79,3 +79,16 @@
   border-top: 2.5px solid black;
   border-radius: 0 0 10px 10px;
 }
+
+#next-round-button {
+  margin-left: 24px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #0099ff;
+  border: 1px solid #0099ff;
+}
+
+#next-round-button:hover {
+  background-color: #4fa2ea;
+  border-color: #4fa2ea;
+}

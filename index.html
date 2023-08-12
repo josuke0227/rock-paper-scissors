@@ -9,17 +9,23 @@
     <title>Rock Paper Scissors</title>
   </head>
   <body>
-    <div class="chosen-selections">
-      <div id="selection-computer" class="chosen-selection computer">Rock</div>
-      <div id="selection-player" class="chosen-selection player">Paper</div>
+    <div class="round-result">
+      <span id="round-result-panel">You Win!</span>
+      <button id="next-round-button">Next Round</button>
     </div>
   </body>
   <script>
-    const computerChoice = 'rock';
-    const playerChoice = 'paper';
-    const computerSelection = document.getElementById('selection-computer');
-    const playerSelection = document.getElementById('selection-player');
-    computerSelection.innerText = computerChoice;
-    playerSelection.innerText = playerChoice;
+    let resultText = '';
+    let roundResult = null;
+    if (roundResult === true) {
+      resultText = 'You Win! :)';
+    } else if (roundResult === false) {
+      resultText = 'You Loose... :(';
+    } else {
+      resultText = 'Draw :|';
+    }
+
+    const roundResultPanel = document.getElementById('round-result-panel');
+    roundResultPanel.innerText = resultText;
   </script>
 </html>
