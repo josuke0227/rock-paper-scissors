@@ -1,8 +1,33 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="./script.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0"
+    />
+    <link rel="stylesheet" href="./style.css" />
     <title>Rock Paper Scissors</title>
   </head>
-  <body></body>
+  <body>
+    <div class="counter-container">
+      <span>YOU</span>
+      <div class="counter">
+        <span data-count="1" class="circle"></span>
+        <span data-count="2" class="circle"></span>
+        <span data-count="3" class="circle"></span>
+        <span data-count="4" class="circle"></span>
+        <img src="./trophy.svg" alt="trophy icon" data-count="5" />
+      </div>
+    </div>
+  </body>
+  <script>
+    let winnings = 0;
+    const { children: counter } = document.getElementsByClassName('counter')[0];
+    for (let count of counter) {
+      const countNumber = count.getAttribute('data-count');
+      if (count.tagName !== 'IMG' && +countNumber <= winnings) {
+        count.classList.add('filled');
+      }
+    }
+  </script>
 </html>

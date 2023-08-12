@@ -164,3 +164,5 @@ function game() {
 }
 
 game();
+
+//User interactivity

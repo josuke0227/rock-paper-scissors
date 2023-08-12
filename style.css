@@ -1,0 +1,37 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.circle {
+  width: 32px;
+  height: 32px;
+  display: inline-block;
+  border: 2px solid black;
+  border-radius: 50%;
+}
+
+.filled {
+  background-color: black;
+}
+
+.counter-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.counter-container > span {
+  font-size: 32px;
+}
+
+.fa-crown {
+  font-size: 34px;
+  background-color: unset;
+}

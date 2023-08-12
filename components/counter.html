@@ -1,0 +1,22 @@
+<body>
+  <div class="counter-container">
+    <span>YOU</span>
+    <div class="counter">
+      <span data-count="1" class="circle"></span>
+      <span data-count="2" class="circle"></span>
+      <span data-count="3" class="circle"></span>
+      <span data-count="4" class="circle"></span>
+      <img src="./trophy.svg" alt="trophy icon" data-count="5" />
+    </div>
+  </div>
+</body>
+<script>
+  let winnings = 0;
+  const { children: counter } = document.getElementsByClassName('counter')[0];
+  for (let count of counter) {
+    const countNumber = count.getAttribute('data-count');
+    if (count.tagName !== 'IMG' && +countNumber <= winnings) {
+      count.classList.add('filled');
+    }
+  }
+</script>
