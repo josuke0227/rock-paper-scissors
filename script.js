@@ -132,10 +132,11 @@ function getPlayerSelection(rounds, selections) {
  */
 let playerWon = 0;
 let computerWon = 0;
-function game(playerSelection) {
-  const SELECTIONS = ['rock', 'paper', 'scissors'];
+const SELECTIONS = ['rock', 'paper', 'scissors'];
 
-  const computerSelection = getComputerSelection(SELECTIONS);
+function game(playerSelection) {
+  const computerSelection = 'rock';
+  // const computerSelection = getComputerSelection(SELECTIONS);
   const roundResult = playRound(playerSelection, computerSelection, SELECTIONS);
 
   const computerSelectionPanel = document.getElementById('selection-computer');
@@ -143,34 +144,48 @@ function game(playerSelection) {
   computerSelectionPanel.innerText = computerSelection;
   playerSelectionPanel.innerText = playerSelection;
 
+  if (playerWon === 5 || computerWon === 5) {
+    (playerWon = 0), (computerWon = 0);
+    resetCounter('player-counter');
+    resetCounter('computer-counter');
+  }
+
   let resultText = '';
   if (roundResult === true) {
     resultText = 'You Win! :)';
     playerWon++;
+    updateCounter('player-counter', playerWon);
   } else if (roundResult === false) {
     resultText = 'You Loose... :(';
     computerWon++;
+    updateCounter('computer-counter', computerWon);
   } else {
     resultText = 'Draw :|';
   }
 
   const roundResultPanel = document.getElementById('round-result-panel');
   roundResultPanel.innerText = resultText;
-
-  updateCounter('computer-counter', computerWon);
-  updateCounter('player-counter', playerWon);
 }
 
 function updateCounter(target, value) {
   const { children } = document.getElementById(target);
   for (let count of children) {
     const countNumber = count.getAttribute('data-count');
-    if (count.tagName !== 'IMG' && +countNumber <= value) {
+    if (count.tagName !== 'IMG' && +countNumber === value) {
       count.classList.add('filled');
     }
     if (count.tagName === 'IMG' && value >= 5) {
       count.src = './trophy.svg';
     }
+  }
+}
+
+function resetCounter(target) {
+  const { children } = document.getElementById(target);
+  for (let count of children) {
+    if (count.tagName === 'IMG') {
+      count.src = './trophy-outlined.svg';
+    } else count.classList.remove('filled');
   }
 }
 
