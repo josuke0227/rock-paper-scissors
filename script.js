@@ -155,16 +155,29 @@ function game(playerSelection) {
     resultText = 'You Win! :)';
     playerWon++;
     updateCounter('player-counter', playerWon);
+    highlightWinner('selection-player');
+    highlightWinner('selection-computer', true);
   } else if (roundResult === false) {
     resultText = 'You Loose... :(';
     computerWon++;
     updateCounter('computer-counter', computerWon);
+    highlightWinner('selection-computer');
+    highlightWinner('selection-player', true);
   } else {
     resultText = 'Draw :|';
+    highlightWinner('selection-computer', true);
+    highlightWinner('selection-player', true);
   }
 
   const roundResultPanel = document.getElementById('round-result-panel');
   roundResultPanel.innerText = resultText;
+}
+
+function highlightWinner(elementId, reset = false) {
+  const element = document.getElementById(elementId);
+  if (reset === true) {
+    element.classList.remove('won');
+  } else element.classList.add('won');
 }
 
 function updateCounter(target, value) {
