@@ -7,43 +7,46 @@
     />
     <link rel="stylesheet" href="./style.css" />
     <script src="./script.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles-confetti@2.12.0/tsparticles.confetti.bundle.min.js"></script>
     <title>Rock Paper Scissors</title>
   </head>
   <body>
-    <div class="counter-container">
-      <span>COM</span>
-      <div id="computer-counter" class="counter">
-        <span data-count="1" class="circle"></span>
-        <span data-count="2" class="circle"></span>
-        <span data-count="3" class="circle"></span>
-        <span data-count="4" class="circle"></span>
-        <img src="./trophy-outlined.svg" alt="trophy icon" data-count="5" />
+    <main>
+      <div class="counter-container">
+        <span>COM</span>
+        <div id="computer-counter" class="counter">
+          <span data-count="1" class="circle"></span>
+          <span data-count="2" class="circle"></span>
+          <span data-count="3" class="circle"></span>
+          <span data-count="4" class="circle"></span>
+          <img src="./trophy-outlined.svg" alt="trophy icon" data-count="5" />
+        </div>
       </div>
-    </div>
-    <div class="result-panels">
-      <div class="tile"></div>
-      <div class="chosen-selections">
-        <div id="selection-computer" class="chosen-selection computer"></div>
-        <div id="selection-player" class="chosen-selection player"></div>
+      <div class="result-panels">
+        <div class="tile"></div>
+        <div class="chosen-selections">
+          <div id="selection-computer" class="chosen-selection computer"></div>
+          <div id="selection-player" class="chosen-selection player"></div>
+        </div>
+        <div class="tile result-container">
+          <span id="round-result-panel"></span>
+        </div>
       </div>
-      <div class="tile result-container">
-        <span id="round-result-panel"></span>
+      <div class="selections">
+        <div id="rock" class="selection">Rock</div>
+        <div id="paper" class="selection">Paper</div>
+        <div id="scissors" class="selection">Scissors</div>
       </div>
-    </div>
-    <div class="selections">
-      <div id="rock" class="selection">Rock</div>
-      <div id="paper" class="selection">Paper</div>
-      <div id="scissors" class="selection">Scissors</div>
-    </div>
-    <div class="counter-container">
-      <span>YOU</span>
-      <div id="player-counter" class="counter">
-        <span data-count="1" class="circle"></span>
-        <span data-count="2" class="circle"></span>
-        <span data-count="3" class="circle"></span>
-        <span data-count="4" class="circle"></span>
-        <img src="./trophy-outlined.svg" alt="trophy icon" data-count="5" />
+      <div class="counter-container">
+        <span>YOU</span>
+        <div id="player-counter" class="counter">
+          <span data-count="1" class="circle"></span>
+          <span data-count="2" class="circle"></span>
+          <span data-count="3" class="circle"></span>
+          <span data-count="4" class="circle"></span>
+          <img src="./trophy-outlined.svg" alt="trophy icon" data-count="5" />
+        </div>
       </div>
-    </div>
+    </main>
   </body>
 </html>

@@ -135,6 +135,12 @@ let computerWon = 0;
 const SELECTIONS = ['rock', 'paper', 'scissors'];
 
 function game(playerSelection) {
+  if (playerWon === 5 || computerWon === 5) {
+    (playerWon = 0), (computerWon = 0);
+    resetCounter('player-counter');
+    resetCounter('computer-counter');
+  }
+
   const computerSelection = 'rock';
   // const computerSelection = getComputerSelection(SELECTIONS);
   const roundResult = playRound(playerSelection, computerSelection, SELECTIONS);
@@ -144,23 +150,17 @@ function game(playerSelection) {
   computerSelectionPanel.innerText = computerSelection;
   playerSelectionPanel.innerText = playerSelection;
 
-  if (playerWon === 5 || computerWon === 5) {
-    (playerWon = 0), (computerWon = 0);
-    resetCounter('player-counter');
-    resetCounter('computer-counter');
-  }
-
   let resultText = '';
   if (roundResult === true) {
     resultText = 'You Win! :)';
-    playerWon++;
-    updateCounter('player-counter', playerWon);
+    // playerWon++;
+    updateCounter('player-counter', ++playerWon);
     highlightWinner('selection-player');
     highlightWinner('selection-computer', true);
   } else if (roundResult === false) {
     resultText = 'You Loose... :(';
-    computerWon++;
-    updateCounter('computer-counter', computerWon);
+    // computerWon++;
+    updateCounter('computer-counter', ++computerWon);
     highlightWinner('selection-computer');
     highlightWinner('selection-player', true);
   } else {
@@ -171,6 +171,14 @@ function game(playerSelection) {
 
   const roundResultPanel = document.getElementById('round-result-panel');
   roundResultPanel.innerText = resultText;
+
+  if (playerWon === 5) {
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 },
+    });
+  }
 }
 
 function highlightWinner(elementId, reset = false) {
@@ -181,13 +189,14 @@ function highlightWinner(elementId, reset = false) {
 }
 
 function updateCounter(target, value) {
+  console.log(value);
   const { children } = document.getElementById(target);
   for (let count of children) {
     const countNumber = count.getAttribute('data-count');
-    if (count.tagName !== 'IMG' && +countNumber === value) {
+    if (count.tagName === 'SPAN' && +countNumber === value) {
       count.classList.add('filled');
     }
-    if (count.tagName === 'IMG' && value >= 5) {
+    if (count.tagName === 'IMG' && +countNumber === value) {
       count.src = './trophy.svg';
     }
   }
