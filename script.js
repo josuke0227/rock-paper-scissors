@@ -153,13 +153,11 @@ function game(playerSelection) {
   let resultText = '';
   if (roundResult === true) {
     resultText = 'You Win! :)';
-    // playerWon++;
     updateCounter('player-counter', ++playerWon);
     highlightWinner('selection-player');
     highlightWinner('selection-computer', true);
   } else if (roundResult === false) {
     resultText = 'You Loose... :(';
-    // computerWon++;
     updateCounter('computer-counter', ++computerWon);
     highlightWinner('selection-computer');
     highlightWinner('selection-player', true);
@@ -197,7 +195,7 @@ function updateCounter(target, value) {
       count.classList.add('filled');
     }
     if (count.tagName === 'IMG' && +countNumber === value) {
-      count.src = './trophy.svg';
+      count.src = './images/trophy.svg';
     }
   }
 }
@@ -206,12 +204,11 @@ function resetCounter(target) {
   const { children } = document.getElementById(target);
   for (let count of children) {
     if (count.tagName === 'IMG') {
-      count.src = './trophy-outlined.svg';
+      count.src = './images/trophy-outlined.svg';
     } else count.classList.remove('filled');
   }
 }
 
-// game();
 const { children: selections } =
   document.getElementsByClassName('selections')[0];
 for (let selection of selections) {
