@@ -1,14 +1,55 @@
-/**
- * Rock paper scissors requirements
- * This game is to be played against the computer.
- * Selections: "Rock", "Paper", "Scissors"
- * There is only single round
- * The player get the result of the game with the text like:
- *   "You Lose! Paper beats Rock"
- * The player enters the selection as text.
- *  text should be case-insensitive.
- *
- */
+const { children: selections } =
+  document.getElementsByClassName('selections')[0];
+for (let selection of selections) {
+  selection.addEventListener('click', handleSelectionClick);
+}
+
+function handleSelectionClick({ target }) {
+  const selection = target.getAttribute('id');
+  game(selection);
+}
+
+let playerWon = 0;
+let computerWon = 0;
+const SELECTIONS = ['rock', 'paper', 'scissors'];
+
+function game(playerSelection) {
+  if (playerWon === 5 || computerWon === 5) {
+    (playerWon = 0), (computerWon = 0);
+    resetCounter('player-counter');
+    resetCounter('computer-counter');
+  }
+
+  // const computerSelection = 'rock';
+  const computerSelection = getComputerSelection(SELECTIONS);
+  const roundResult = playRound(playerSelection, computerSelection, SELECTIONS);
+
+  addTextContentToElement('selection-computer', computerSelection);
+  addTextContentToElement('selection-player', playerSelection);
+
+  let resultText = '';
+  if (roundResult === true) {
+    resultText = 'You Win! :)';
+    updateCounter('player-counter', ++playerWon);
+    highlightWinner('selection-player');
+    highlightWinner('selection-computer', true);
+  } else if (roundResult === false) {
+    resultText = 'You Loose... :(';
+    updateCounter('computer-counter', ++computerWon);
+    highlightWinner('selection-computer');
+    highlightWinner('selection-player', true);
+  } else {
+    resultText = 'Draw :|';
+    highlightWinner('selection-computer', true);
+    highlightWinner('selection-player', true);
+  }
+
+  addTextContentToElement('round-result-panel', resultText);
+
+  if (playerWon === 5) {
+    showConfetti();
+  }
+}
 
 /**
  *
@@ -57,128 +98,21 @@ function playRound(playerSelection, computerSelection, selections) {
 
 /**
  *
- * @param {Integer} playerScore
- * @param {Integer} computerScore
- * @returns {Boolean}
+ * @param {String} elementId
+ * @param {String} text
+ * @returns {void}
  */
-function didPlayerWon(playerScore, computerScore) {
-  return playerScore > computerScore;
-}
-/**
- *
- * @param {Integer} playerScore
- * @param {Integer} computerScore
- * @returns {Boolean}
- */
-function didDraw(playerScore, computerScore) {
-  return playerScore === computerScore;
+function addTextContentToElement(elementId, text) {
+  const element = document.getElementById(elementId);
+  element.innerText = text;
 }
 
 /**
  *
- * @param {String} result
- * @param {Integer} playerScore
- * @returns {String}
+ * @param {String} elementId
+ * @param {Boolean} reset
+ * @returns {void}
  */
-function getGameOverMessage(result, playerScore) {
-  const tryAgainMessage = '\nGame Over! Refresh this page to try again! :)';
-  const score = `\nYou won ${playerScore} ${
-    playerScore > 1 ? 'times' : 'time'
-  }.`;
-  const youWinMessage = 'You Win!' + score + tryAgainMessage;
-  const drawMessage = 'Draw' + tryAgainMessage;
-  const youLooseMessage = 'You Lose... :(' + score + tryAgainMessage;
-  const message = {
-    win: youWinMessage,
-    loose: youLooseMessage,
-    draw: drawMessage,
-  };
-  return message[result];
-}
-
-/**
- *
- * @param {Integer} rounds
- * @param {Array<String>} selections
- * @returns {String}
- */
-function getPlayerSelection(rounds, selections) {
-  let selection;
-  while (true) {
-    selection = prompt(
-      `Please enter your selection. ${rounds} out of 5 rounds left.`
-    );
-    if (selection === null) {
-      alert('Thanks for Playing! \nSee Ya!');
-      return null;
-    }
-    if (selection === '') {
-      alert('Please enter your selection.');
-      continue;
-    }
-    selection = selection.toLocaleLowerCase().trim();
-    if (selections.indexOf(selection) >= 0) {
-      return selection;
-    } else {
-      alert(
-        `Oops, "${selection}" does not seem like to be valid selection...\n Please choose from "Rock", "Paper" or "Scissors" ;)`
-      );
-    }
-  }
-}
-
-/**
- * Main method.
- */
-let playerWon = 0;
-let computerWon = 0;
-const SELECTIONS = ['rock', 'paper', 'scissors'];
-
-function game(playerSelection) {
-  if (playerWon === 5 || computerWon === 5) {
-    (playerWon = 0), (computerWon = 0);
-    resetCounter('player-counter');
-    resetCounter('computer-counter');
-  }
-
-  const computerSelection = 'rock';
-  // const computerSelection = getComputerSelection(SELECTIONS);
-  const roundResult = playRound(playerSelection, computerSelection, SELECTIONS);
-
-  const computerSelectionPanel = document.getElementById('selection-computer');
-  const playerSelectionPanel = document.getElementById('selection-player');
-  computerSelectionPanel.innerText = computerSelection;
-  playerSelectionPanel.innerText = playerSelection;
-
-  let resultText = '';
-  if (roundResult === true) {
-    resultText = 'You Win! :)';
-    updateCounter('player-counter', ++playerWon);
-    highlightWinner('selection-player');
-    highlightWinner('selection-computer', true);
-  } else if (roundResult === false) {
-    resultText = 'You Loose... :(';
-    updateCounter('computer-counter', ++computerWon);
-    highlightWinner('selection-computer');
-    highlightWinner('selection-player', true);
-  } else {
-    resultText = 'Draw :|';
-    highlightWinner('selection-computer', true);
-    highlightWinner('selection-player', true);
-  }
-
-  const roundResultPanel = document.getElementById('round-result-panel');
-  roundResultPanel.innerText = resultText;
-
-  if (playerWon === 5) {
-    confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { y: 0.6 },
-    });
-  }
-}
-
 function highlightWinner(elementId, reset = false) {
   const element = document.getElementById(elementId);
   if (reset === true) {
@@ -186,20 +120,30 @@ function highlightWinner(elementId, reset = false) {
   } else element.classList.add('won');
 }
 
+/**
+ * @param {String} target
+ * @param {Number} value
+ * @returns {void}
+ */
 function updateCounter(target, value) {
-  console.log(value);
   const { children } = document.getElementById(target);
   for (let count of children) {
     const countNumber = count.getAttribute('data-count');
+    // Round counters are not image
     if (count.tagName === 'SPAN' && +countNumber === value) {
       count.classList.add('filled');
     }
+    // Trophy counter is SVG image
     if (count.tagName === 'IMG' && +countNumber === value) {
       count.src = './images/trophy.svg';
     }
   }
 }
 
+/**
+ *
+ * @param {String} target
+ */
 function resetCounter(target) {
   const { children } = document.getElementById(target);
   for (let count of children) {
@@ -209,13 +153,10 @@ function resetCounter(target) {
   }
 }
 
-const { children: selections } =
-  document.getElementsByClassName('selections')[0];
-for (let selection of selections) {
-  selection.addEventListener('click', handleSelectionClick);
-}
-
-function handleSelectionClick({ target }) {
-  const selection = target.getAttribute('id');
-  game(selection);
+function showConfetti() {
+  confetti({
+    particleCount: 100,
+    spread: 70,
+    origin: { y: 0.6 },
+  });
 }
