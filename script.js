@@ -1,55 +1,6 @@
-const { children: selections } =
-  document.getElementsByClassName('selections')[0];
-for (let selection of selections) {
-  selection.addEventListener('click', handleSelectionClick);
-}
-
-function handleSelectionClick({ target }) {
-  const selection = target.getAttribute('id');
-  game(selection);
-}
-
 let playerWon = 0;
 let computerWon = 0;
 const SELECTIONS = ['rock', 'paper', 'scissors'];
-
-function game(playerSelection) {
-  if (playerWon === 5 || computerWon === 5) {
-    (playerWon = 0), (computerWon = 0);
-    resetCounter('player-counter');
-    resetCounter('computer-counter');
-  }
-
-  // const computerSelection = 'rock';
-  const computerSelection = getComputerSelection(SELECTIONS);
-  const roundResult = playRound(playerSelection, computerSelection, SELECTIONS);
-
-  addTextContentToElement('selection-computer', computerSelection);
-  addTextContentToElement('selection-player', playerSelection);
-
-  let resultText = '';
-  if (roundResult === true) {
-    resultText = 'You Win! :)';
-    updateCounter('player-counter', ++playerWon);
-    highlightWinner('selection-player');
-    highlightWinner('selection-computer', true);
-  } else if (roundResult === false) {
-    resultText = 'You Loose... :(';
-    updateCounter('computer-counter', ++computerWon);
-    highlightWinner('selection-computer');
-    highlightWinner('selection-player', true);
-  } else {
-    resultText = 'Draw :|';
-    highlightWinner('selection-computer', true);
-    highlightWinner('selection-player', true);
-  }
-
-  addTextContentToElement('round-result-panel', resultText);
-
-  if (playerWon === 5) {
-    showConfetti();
-  }
-}
 
 /**
  *
@@ -94,6 +45,13 @@ function playRound(playerSelection, computerSelection, selections) {
   }
 
   return false;
+}
+
+function initEventListeners() {
+  const selections = document.querySelectorAll('.selections .selection');
+  selections.forEach((selection) => {
+    selection.addEventListener('click', handleSelectionClick);
+  });
 }
 
 /**
@@ -160,3 +118,52 @@ function showConfetti() {
     origin: { y: 0.6 },
   });
 }
+
+function handleSelectionClick({ target }) {
+  const selection = target.getAttribute('id');
+  game(selection);
+}
+
+function init() {
+  initEventListeners();
+}
+
+function game(playerSelection) {
+  if (playerWon === 5 || computerWon === 5) {
+    (playerWon = 0), (computerWon = 0);
+    resetCounter('player-counter');
+    resetCounter('computer-counter');
+  }
+
+  // const computerSelection = 'rock';
+  const computerSelection = getComputerSelection(SELECTIONS);
+  const roundResult = playRound(playerSelection, computerSelection, SELECTIONS);
+
+  addTextContentToElement('selection-computer', computerSelection);
+  addTextContentToElement('selection-player', playerSelection);
+
+  let resultText = '';
+  if (roundResult === true) {
+    resultText = 'You Win! :)';
+    updateCounter('player-counter', ++playerWon);
+    highlightWinner('selection-player');
+    highlightWinner('selection-computer', true);
+  } else if (roundResult === false) {
+    resultText = 'You Loose... :(';
+    updateCounter('computer-counter', ++computerWon);
+    highlightWinner('selection-computer');
+    highlightWinner('selection-player', true);
+  } else {
+    resultText = 'Draw :|';
+    highlightWinner('selection-computer', true);
+    highlightWinner('selection-player', true);
+  }
+
+  addTextContentToElement('round-result-panel', resultText);
+
+  if (playerWon === 5) {
+    showConfetti();
+  }
+}
+
+init();
